@@ -16,4 +16,5 @@ require (
 	github.com/jinzhu/now v1.1.5 // indirect
 	golang.org/x/sys v0.13.0 // indirect
 	golang.org/x/text v0.35.0 // indirect
+	gorm.io/plugin/dbresolver v1.6.2 // indirect
 )
