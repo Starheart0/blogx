@@ -14,6 +14,7 @@ require (
 	github.com/go-sql-driver/mysql v1.8.1 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
+	github.com/lionsoul2014/ip2region/binding/golang v0.0.0-20260323125519-8a7b0882169b // indirect
 	golang.org/x/sys v0.13.0 // indirect
 	golang.org/x/text v0.35.0 // indirect
 	gorm.io/plugin/dbresolver v1.6.2 // indirect
