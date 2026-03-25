@@ -9,6 +9,9 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+//var confPath = "settings.yaml"
+//byteData, err := os.ReadFile(confPath)
+
 func ReadConf() (c *conf.Config) {
 	byteData, err := os.ReadFile(flags.FlagOptions.File)
 	if err != nil {
