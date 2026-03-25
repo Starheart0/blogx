@@ -1,4 +1,0 @@
-[2026-03-23 17:29:22] [33m[warning][0m main.go:16 main.main xxx
-[2026-03-23 17:29:22] [37m[debug][0m main.go:17 main.main yyy
-[2026-03-23 17:29:22] [31m[error][0m main.go:18 main.main zzz
-[2026-03-23 17:29:22] [36m[info][0m main.go:19 main.main 1123

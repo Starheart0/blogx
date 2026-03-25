@@ -1,5 +1,12 @@
 package global
 
-import "blogx_server/conf"
+import (
+	"blogx_server/conf"
 
-var Config *conf.Config
+	"gorm.io/gorm"
+)
+
+var (
+	Config *conf.Config
+	DB     *gorm.DB
+)
