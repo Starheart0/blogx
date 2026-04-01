@@ -4,7 +4,7 @@ import (
 	"blogx_server/core"
 	"blogx_server/flags"
 	"blogx_server/global"
-	"blogx_server/router"
+	"blogx_server/server/log_server"
 )
 
 func main() {
@@ -12,6 +12,10 @@ func main() {
 	global.Config = core.ReadConf()
 	core.InitLogrus()
 	global.DB = core.InitDB()
-	flags.Run()
-	router.Run()
+
+	log := log_server.NewRuntimeLog("abc", log_server.RuntimeDateHour)
+	log.SetItem("1", 11)
+	log.Save()
+	log.SetItem("2", 12)
+	log.Save()
 }
