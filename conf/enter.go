@@ -7,6 +7,8 @@ type Config struct {
 	Log    Log    `yaml:"log"`
 	DB     DB     `yaml:"db"`  //read
 	DB1    DB     `yaml:"db1"` //write
+	Jwt    Jwt    `yaml:"jwt"`
+	Redis  Redis  `yaml:"redis"`
 }
 
 func (s System) Addr() string {

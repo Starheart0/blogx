@@ -5,7 +5,7 @@ import (
 	"blogx_server/global"
 	"blogx_server/models"
 	"blogx_server/models/enum"
-	"fmt"
+	"blogx_server/utills/jwts"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,11 +13,13 @@ import (
 func NewLoginSuccess(c *gin.Context, loginType enum.LoginType) {
 	ip := c.ClientIP()
 	addr := core.GetIpAddr(ip)
-	token := c.GetHeader("token")
-	fmt.Println(token)
-	// todo:
-	userID := uint(1)
+	claims, err := jwts.ParseTokenByGin(c)
+	userID := uint(0)
 	userName := ""
+	if err == nil && claims != nil {
+		userID = claims.UserID
+		userName = claims.UserName
+	}
 
 	global.DB.Create(&models.LogModel{
 		LogType:     enum.LoginLogType,

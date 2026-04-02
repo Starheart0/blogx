@@ -94,7 +94,7 @@ func (LogApi) LogRemoveView(c *gin.Context) {
 	log.ShowRequest()
 	log.ShowResponse()
 
-	var logList []models.LogM odel
+	var logList []models.LogModel
 	global.DB.Find(&logList, "id in ?", cr.IDlist)
 
 	if len(logList) > 0 {

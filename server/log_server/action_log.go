@@ -5,6 +5,7 @@ import (
 	"blogx_server/global"
 	"blogx_server/models"
 	"blogx_server/models/enum"
+	"blogx_server/utills/jwts"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -183,7 +184,11 @@ func (ac *ActionLog) Save() (id uint) {
 	}
 	ip := ac.c.ClientIP()
 	addr := core.GetIpAddr(ip)
-	userID := uint(1)
+	claims, err := jwts.ParseTokenByGin(ac.c)
+	userID := uint(0)
+	if err == nil && claims != nil {
+		userID = claims.UserID
+	}
 
 	log := models.LogModel{
 		LogType: enum.ActionLogType,
@@ -194,7 +199,7 @@ func (ac *ActionLog) Save() (id uint) {
 		IP:      ip,
 		Addr:    addr,
 	}
-	err := global.DB.Create(&log).Error
+	err = global.DB.Create(&log).Error
 	if err != nil {
 		logrus.Errorf("log create err : %s", err)
 		return
