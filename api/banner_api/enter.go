@@ -13,8 +13,9 @@ import (
 type BannerApi struct {
 }
 type BannerCreateRequest struct {
-	Cover string `json:"cover" binding:"require"`
+	Cover string `json:"cover" binding:"required"`
 	Href  string `json:"href"`
+	Show  bool   `json:"show"`
 }
 
 func (BannerApi) BannerCreateVier(c *gin.Context) {
@@ -86,9 +87,14 @@ func (BannerApi) BannerUpdateView(c *gin.Context) {
 		res.FailWithMsg("not exist such banner", c)
 		return
 	}
-	global.DB.Model(&model).Updates(map[string]any{
+	err = global.DB.Model(&model).Updates(map[string]any{
 		"cover": cr.Cover,
 		"href":  cr.Href,
 		"show":  cr.Show,
-	})
+	}).Error
+	if err != nil {
+		res.FailWithError(err, c)
+		return
+	}
+	res.OkWithMsg("banner update AC", c)
 }
