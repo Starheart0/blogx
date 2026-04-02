@@ -3,9 +3,11 @@ package core
 import (
 	"blogx_server/conf"
 	"blogx_server/flags"
+	"blogx_server/global"
 	"fmt"
 	"os"
 
+	"github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v3"
 )
 
@@ -24,4 +26,17 @@ func ReadConf() (c *conf.Config) {
 	}
 	fmt.Printf("读取配置文件 %s 成功\n", flags.FlagOptions.File)
 	return
+}
+
+func SetConf() {
+	byteData, err := yaml.Marshal(global.Config)
+	if err != nil {
+		logrus.Errorf("conf read error %s", err)
+		return
+	}
+	err = os.WriteFile(flags.FlagOptions.File, byteData, 0666)
+	if err != nil {
+		logrus.Errorf("set config file error %s", err)
+		return
+	}
 }

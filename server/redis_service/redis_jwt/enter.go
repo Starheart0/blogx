@@ -2,7 +2,7 @@ package redis_jwt
 
 import (
 	"blogx_server/global"
-	"blogx_server/utills/jwts"
+	"blogx_server/utils/jwts"
 	"fmt"
 	"time"
 

@@ -1,32 +1,96 @@
 system:
-  ip:
-  port: 8080
-  env: dev
-  gin_mode: release
+    ip: ""
+    port: 8080
+    gin_mode: release
+    env: dev
 log:
-  app: blogx_server
-  dir: logs
-jwt:
-  expire: 3
-  secret: xxx
-  issuer: Starheart
-redis:
-  addr: 127.0.0.1:6379
-  password: 1234
-  db: 2
+    app: blogx_server
+    dir: logs
 db:
-  user: root
-  password: root
-  host: 127.0.0.1
-  port: 3306
-  db: blogx
-  debug: false
-  source: mysql
+    user: root
+    password: root
+    host: 127.0.0.1
+    port: 3306
+    db: blogx
+    debug: false
+    source: mysql
 db1:
-  user: root
-  password: root
-  host: 127.0.0.1
-  port: 3306
-  db: blogx
-  debug: false
-  source: mysql
+    user: root
+    password: root
+    host: 127.0.0.1
+    port: 3306
+    db: blogx
+    debug: false
+    source: mysql
+jwt:
+    expire: 3
+    secret: xxx
+    issuer: Starheart
+redis:
+    addr: 127.0.0.1:6379
+    password: "1234"
+    DB: 0
+upload:
+    size: 2
+    whiteList:
+        - jpg
+        - jpeg
+        - png
+        - webp
+        - gif
+    uploadDir: uploads/images
+site:
+    siteInfo:
+        title: "1231213"
+        logo: "4124"
+        beian: "123123"
+        mode: 1
+    project:
+        title: Starheart666
+        icon: /xatax.png
+        webPath: uploads/index.html
+    seo:
+        keywords: "456"
+        description: "123"
+    about:
+        siteDate: ""
+        QQ: ""
+        wechat: ""
+        gitee: ""
+        bilibili: ""
+        github: ""
+    login:
+        QQLogin: false
+        UsernamePwdLogin: false
+        EmailLogin: false
+        Captcha: false
+    indexRight:
+        list: []
+    article:
+        noExamine: false
+email:
+    domain: ""
+    port: 0
+    sendEmail: ""
+    authCode: ""
+    sendNickname: ""
+    ssl: false
+    tls: false
+qq:
+    appID: "123213121114"
+    appKey: ""
+    redirect: http://xxxx
+qiNiu:
+    enable: true
+    accessKey: "lntv_HwY4AbLoUEp-hXMuuRkX1VxllIvl1cG9DFA"
+    secretKey: "tCocIwM2pPW1lejAhrxNR3XHn9cGscf9o1d427Te"
+    bucket: starheart
+    uri: ""
+    region: ""
+    prefix: ""
+    size: 0
+ai:
+    enable: false
+    secretKey: nsginjsib
+    nickname: xx
+    avatar: /xxx/xxx

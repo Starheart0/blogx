@@ -1,7 +1,7 @@
 package res
 
 import (
-	"blogx_server/utills/validate"
+	"blogx_server/utils/validate"
 
 	"github.com/gin-gonic/gin"
 )

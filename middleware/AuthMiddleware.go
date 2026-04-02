@@ -4,7 +4,7 @@ import (
 	"blogx_server/commom/res"
 	"blogx_server/models/enum"
 	"blogx_server/server/redis_service/redis_jwt"
-	"blogx_server/utills/jwts"
+	"blogx_server/utils/jwts"
 
 	"github.com/gin-gonic/gin"
 )

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	iputils "blogx_server/utills/ip"
+	iputils "blogx_server/utils/ip"
 	"github.com/lionsoul2014/ip2region/binding/golang/xdb"
 	"github.com/sirupsen/logrus"
 )
