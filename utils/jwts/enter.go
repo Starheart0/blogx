@@ -27,8 +27,8 @@ func GetToken(claims Claims) (string, error) {
 	cla := MyClaims{
 		Claims: claims,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Duration(global.Config.Jwt.Expire) * time.Hour).Unix(), // 过期时间
-			Issuer:    global.Config.Jwt.Issuer,                                                   // 签发人
+			ExpiresAt: time.Now().Add(time.Duration(global.Config.Jwt.Expire) * time.Hour * 100).Unix(), // 过期时间
+			Issuer:    global.Config.Jwt.Issuer,                                                         // 签发人
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, cla)
@@ -64,4 +64,16 @@ func ParseTokenByGin(c *gin.Context) (*MyClaims, error) {
 		token = c.Query("token")
 	}
 	return ParseToken(token)
+}
+
+func GetCliams(c *gin.Context) (claims *MyClaims) {
+	_claims, ok := c.Get("claims")
+	if !ok {
+		return
+	}
+	claims, ok = _claims.(*MyClaims)
+	if !ok {
+		return
+	}
+	return
 }

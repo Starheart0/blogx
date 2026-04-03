@@ -30,20 +30,11 @@ redis:
     addr: 127.0.0.1:6379
     password: "1234"
     DB: 0
-upload:
-    size: 2
-    whiteList:
-        - jpg
-        - jpeg
-        - png
-        - webp
-        - gif
-    uploadDir: uploads/images
 site:
     siteInfo:
         title: "1231213"
         logo: "4124"
-        beian: "123123"
+        beian: "123112323"
         mode: 1
     project:
         title: Starheart666
@@ -61,7 +52,7 @@ site:
         github: ""
     login:
         QQLogin: false
-        UsernamePwdLogin: false
+        UsernamePwdLogin: true
         EmailLogin: false
         Captcha: false
     indexRight:
@@ -69,12 +60,12 @@ site:
     article:
         noExamine: false
 email:
-    domain: ""
-    port: 0
-    sendEmail: ""
-    authCode: ""
-    sendNickname: ""
-    ssl: false
+    domain: smtp.qq.com
+    port: 587
+    sendEmail: 2505909854@qq.com
+    authCode: qypapblpcquadief
+    sendNickname: Starheart
+    ssl: true
     tls: false
 qq:
     appID: "123213121114"
@@ -82,8 +73,8 @@ qq:
     redirect: http://xxxx
 qiNiu:
     enable: true
-    accessKey: "lntv_HwY4AbLoUEp-hXMuuRkX1VxllIvl1cG9DFA"
-    secretKey: "tCocIwM2pPW1lejAhrxNR3XHn9cGscf9o1d427Te"
+    accessKey: lntv_HwY4AbLoUEp-hXMuuRkX1VxllIvl1cG9DFA
+    secretKey: tCocIwM2pPW1lejAhrxNR3XHn9cGscf9o1d427Te
     bucket: starheart
     uri: ""
     region: ""
@@ -94,3 +85,12 @@ ai:
     secretKey: nsginjsib
     nickname: xx
     avatar: /xxx/xxx
+upload:
+    size: 2
+    whiteList:
+        - jpg
+        - jpeg
+        - png
+        - webp
+        - gif
+    uploadDir: uploads/images

@@ -145,7 +145,6 @@ func (SiteApi) SiteUpdateView(c *gin.Context) {
 		}
 		global.Config.QiNiu = s
 	}
-
 	core.SetConf()
 
 	res.OkWithMsg("update site config successfully", c)
