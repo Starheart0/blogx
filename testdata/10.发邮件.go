@@ -4,7 +4,7 @@ import (
 	"blogx_server/core"
 	"blogx_server/flags"
 	"blogx_server/global"
-	"blogx_server/server/email_service"
+	"blogx_server/service/email_service"
 	"fmt"
 )
 

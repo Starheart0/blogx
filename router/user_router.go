@@ -2,15 +2,24 @@ package router
 
 import (
 	"blogx_server/api"
+	"blogx_server/api/user_api"
 	"blogx_server/middleware"
+	"blogx_server/models"
 
 	"github.com/gin-gonic/gin"
 )
 
 func UserRouter(r *gin.RouterGroup) {
 	app := api.App.UserApi
-	r.POST("user/send_email", middleware.CaptchaMiddleware, app.SendEmailView)
-	r.POST("user/email", middleware.EmailVerifyMiddleware, app.RegisterEmailView)
-	r.POST("user/login", middleware.CaptchaMiddleware, app.PwdLoginApi)
+	r.POST("user/send_email", middleware.CaptchaMiddleware, middleware.BindJsonMiddleware[user_api.SendEmailRequest], app.SendEmailView)
+	r.POST("user/email", middleware.EmailVerifyMiddleware, middleware.BindJsonMiddleware[user_api.RegisterEmailRequest], app.RegisterEmailView)
+	r.POST("user/login", middleware.CaptchaMiddleware, middleware.BindJsonMiddleware[user_api.PwdLoginRequest], app.PwdLoginApi)
 	r.GET("user/detail", middleware.AuthMiddleware, app.UserDetailView)
+	r.GET("user/login", middleware.AuthMiddleware, middleware.BindQueryMiddleware[user_api.UserLoginListRequest], app.UserLoginListView)
+	r.GET("user/base", middleware.BindQueryMiddleware[models.IDRequest], app.UserBaseInfoView)
+	r.PUT("user/password", middleware.AuthMiddleware, middleware.BindJsonMiddleware[user_api.UpdatePasswordRequest], app.UpdatePasswordView)
+	r.PUT("user/password/reset", middleware.EmailVerifyMiddleware, middleware.BindJsonMiddleware[user_api.ResetPasswordRequest], app.ResetPasswordView)
+	r.PUT("user/email/bind", middleware.EmailVerifyMiddleware, middleware.AuthMiddleware, app.BindEmailView)
+	r.PUT("user", middleware.AuthMiddleware, middleware.BindJsonMiddleware[user_api.UserInfoUpdateRequest], app.UserInfoUpdateView)
+	r.PUT("user/admin", middleware.AdminMiddleware, middleware.BindJsonMiddleware[user_api.AdminUserInfoUpdateRequest], app.AdminUserInfoUpdateView)
 }

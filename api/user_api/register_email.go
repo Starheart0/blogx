@@ -3,8 +3,10 @@ package user_api
 import (
 	"blogx_server/commom/res"
 	"blogx_server/global"
+	"blogx_server/middleware"
 	"blogx_server/models"
 	"blogx_server/models/enum"
+	"blogx_server/service/user_service"
 	"blogx_server/utils/jwts"
 	"blogx_server/utils/pwd"
 	"fmt"
@@ -21,10 +23,9 @@ type RegisterEmailRequest struct {
 }
 
 func (UserApi) RegisterEmailView(c *gin.Context) {
-	var cr RegisterEmailRequest
-	err := c.ShouldBindJSON(&cr)
-	if err != nil {
-		res.FailWithError(err, c)
+	cr := middleware.BindJson[RegisterEmailRequest](c)
+	if !global.Config.Site.Login.EmailLogin {
+		res.FailWithMsg("site hasn't email function", c)
 		return
 	}
 	e, _ := c.Get("email")
@@ -44,7 +45,7 @@ func (UserApi) RegisterEmailView(c *gin.Context) {
 		Email:          email,
 		Role:           enum.UserRole,
 	}
-	err = global.DB.Create(&user).Error
+	err := global.DB.Create(&user).Error
 	if err != nil {
 		res.FailWithMsg("email register error", c)
 		logrus.Errorf("create user error")
@@ -59,5 +60,6 @@ func (UserApi) RegisterEmailView(c *gin.Context) {
 		res.FailWithMsg("email login error", c)
 		return
 	}
+	user_service.NewUserService(user).UserLogin(c)
 	res.OkWithData(token, c)
 }

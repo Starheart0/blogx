@@ -4,6 +4,7 @@ import (
 	"blogx_server/global"
 	"fmt"
 
+	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 )
 
@@ -64,9 +65,9 @@ func ListQuery[T any](model T, option Option) (list []T, count int, err error) {
 		query = query.Where(option.Where)
 	}
 
-	var _c int64
-	global.DB.Model(model).Count(&_c)
-	count = int(_c)
+	//var _c int64
+	//global.DB.Model(model).Count(&_c)
+	//count = int(_c)
 
 	if option.PageInfo.Order != "" {
 		query = query.Order(option.PageInfo.Order)
@@ -75,5 +76,10 @@ func ListQuery[T any](model T, option Option) (list []T, count int, err error) {
 	}
 
 	err = query.Model(&model).Offset(option.PageInfo.GetOffset()).Limit(option.PageInfo.GetLimit()).Find(&list).Error
+	if err != nil {
+		logrus.Errorf("list query error")
+		return
+	}
+	count = len(list)
 	return
 }

@@ -53,7 +53,7 @@ site:
     login:
         QQLogin: false
         UsernamePwdLogin: true
-        EmailLogin: false
+        EmailLogin: true
         Captcha: false
     indexRight:
         list: []

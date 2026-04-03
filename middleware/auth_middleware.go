@@ -3,7 +3,7 @@ package middleware
 import (
 	"blogx_server/commom/res"
 	"blogx_server/models/enum"
-	"blogx_server/server/redis_service/redis_jwt"
+	"blogx_server/service/redis_service/redis_jwt"
 	"blogx_server/utils/jwts"
 
 	"github.com/gin-gonic/gin"

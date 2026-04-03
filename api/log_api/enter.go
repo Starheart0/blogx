@@ -6,7 +6,7 @@ import (
 	"blogx_server/global"
 	"blogx_server/models"
 	"blogx_server/models/enum"
-	"blogx_server/server/log_server"
+	"blogx_server/service/log_server"
 	"fmt"
 
 	"github.com/gin-gonic/gin"

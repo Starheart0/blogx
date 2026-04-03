@@ -4,6 +4,7 @@ import (
 	"blogx_server/commom"
 	"blogx_server/commom/res"
 	"blogx_server/global"
+	"blogx_server/middleware"
 	"blogx_server/models"
 	"fmt"
 
@@ -43,9 +44,8 @@ type BannerListRequest struct {
 	Show bool `form:"show"`
 }
 
-func (BannerApi) BannerListVier(c *gin.Context) {
-	var cr BannerListRequest
-	c.ShouldBindQuery(&cr)
+func (BannerApi) BannerListView(c *gin.Context) {
+	cr := middleware.BindQuery[BannerListRequest](c)
 
 	list, count, _ := commom.ListQuery(models.BannerModel{}, commom.Option{
 		PageInfo: cr.PageInfo,
@@ -69,20 +69,11 @@ func (BannerApi) BannerRemoveView(c *gin.Context) {
 	res.OkWithMsg(fmt.Sprintf("need delete %d banner, successfully delete %d banner", len(cr.IDlist), len(list)), c)
 }
 func (BannerApi) BannerUpdateView(c *gin.Context) {
-	var id models.IDRequest
-	err := c.ShouldBindUri(&id)
-	if err != nil {
-		res.FailWithError(err, c)
-		return
-	}
-	var cr BannerCreateRequest
-	err = c.ShouldBindJSON(&cr)
-	if err != nil {
-		res.FailWithError(err, c)
-		return
-	}
+	id := middleware.BindUri[models.IDRequest](c)
+	cr := middleware.BindJson[BannerCreateRequest](c)
+
 	var model models.BannerModel
-	err = global.DB.Take(&model, id.ID).Error
+	err := global.DB.Take(&model, id.ID).Error
 	if err != nil {
 		res.FailWithMsg("not exist such banner", c)
 		return
