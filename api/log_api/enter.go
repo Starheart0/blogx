@@ -4,6 +4,7 @@ import (
 	"blogx_server/commom"
 	"blogx_server/commom/res"
 	"blogx_server/global"
+	"blogx_server/middleware"
 	"blogx_server/models"
 	"blogx_server/models/enum"
 	"blogx_server/service/log_server"
@@ -31,12 +32,7 @@ type LogListResponse struct {
 }
 
 func (LogApi) LogListView(c *gin.Context) {
-	var cr LogListRequest
-	err := c.ShouldBindQuery(&cr)
-	if err != nil {
-		res.FailWithError(err, c)
-		return
-	}
+	cr := middleware.BindQuery[LogListRequest](c)
 
 	list, count, err := commom.ListQuery(models.LogModel{
 		LogType:     cr.LogType,
@@ -51,7 +47,10 @@ func (LogApi) LogListView(c *gin.Context) {
 		Preloads:     []string{"UserModel"},
 		DefaultOrder: "created_at desc",
 	})
-
+	if err != nil {
+		res.FailWithMsg("query err", c)
+		return
+	}
 	var _list = make([]LogListResponse, 0)
 	for _, logModel := range list {
 		_list = append(_list, LogListResponse{
@@ -63,14 +62,9 @@ func (LogApi) LogListView(c *gin.Context) {
 }
 
 func (LogApi) LogReadView(c *gin.Context) {
-	var cr models.IDRequest
-	err := c.ShouldBindUri(&cr)
-	if err != nil {
-		res.FailWithError(err, c)
-		return
-	}
+	cr := middleware.BindUri[models.IDRequest](c)
 	var log models.LogModel
-	err = global.DB.Take(&log, cr.ID).Error
+	err := global.DB.Take(&log, cr.ID).Error
 	if err != nil {
 		res.FailWithMsg("not exist", c)
 		return
@@ -84,12 +78,7 @@ func (LogApi) LogReadView(c *gin.Context) {
 }
 
 func (LogApi) LogRemoveView(c *gin.Context) {
-	var cr models.RemoveRequest
-	err := c.ShouldBindJSON(&cr)
-	if err != nil {
-		res.FailWithError(err, c)
-		return
-	}
+	cr := middleware.BindJson[models.RemoveRequest](c)
 	log := log_server.GetLog(c)
 	log.ShowRequest()
 	log.ShowResponse()

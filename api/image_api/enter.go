@@ -4,6 +4,7 @@ import (
 	"blogx_server/commom"
 	"blogx_server/commom/res"
 	"blogx_server/global"
+	"blogx_server/middleware"
 	"blogx_server/models"
 	"blogx_server/service/log_server"
 	"fmt"
@@ -20,8 +21,7 @@ type ImageListResponse struct {
 }
 
 func (ImageApi) ImageListView(c *gin.Context) {
-	var cr commom.PageInfo
-	c.ShouldBindQuery(&cr)
+	cr := middleware.BindJson[commom.PageInfo](c)
 	_list, count, _ := commom.ListQuery(models.ImageModel{}, commom.Option{
 		PageInfo: cr,
 		Likes:    []string{"filename"},
@@ -37,12 +37,7 @@ func (ImageApi) ImageListView(c *gin.Context) {
 }
 
 func (ImageApi) ImageRemoveView(c *gin.Context) {
-	var cr models.RemoveRequest
-	err := c.ShouldBindJSON(&cr)
-	if err != nil {
-		res.FailWithError(err, c)
-		return
-	}
+	cr := middleware.BindJson[models.RemoveRequest](c)
 	log := log_server.GetLog(c)
 	log.ShowRequest()
 	log.ShowResponse()

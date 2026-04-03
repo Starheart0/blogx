@@ -23,13 +23,7 @@ type SiteInfoRequest struct {
 }
 
 func (SiteApi) SiteInfoView(c *gin.Context) {
-	var cr SiteInfoRequest
-	err := c.ShouldBindUri(&cr)
-	if err != nil {
-		res.FailWithError(err, c)
-		return
-	}
-
+	cr := middleware.BindJson[SiteInfoRequest](c)
 	if cr.Name == "site" {
 		global.Config.Site.About.Version = global.Version
 		res.OkWithData(global.Config.Site, c)
@@ -78,13 +72,9 @@ type SiteUpdateRequest struct {
 }
 
 func (SiteApi) SiteUpdateView(c *gin.Context) {
-	var cr SiteInfoRequest
-	err := c.ShouldBindUri(&cr)
-	if err != nil {
-		res.FailWithError(err, c)
-		return
-	}
+	cr := middleware.BindUri[SiteInfoRequest](c)
 
+	var err error = nil
 	var rep any
 	switch cr.Name {
 	case "site":

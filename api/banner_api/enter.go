@@ -20,13 +20,8 @@ type BannerCreateRequest struct {
 }
 
 func (BannerApi) BannerCreateVier(c *gin.Context) {
-	var cr BannerCreateRequest
-	err := c.ShouldBindJSON(&cr)
-	if err != nil {
-		res.FailWithError(err, c)
-		return
-	}
-	err = global.DB.Create(&models.BannerModel{
+	cr := middleware.BindJson[BannerCreateRequest](c)
+	err := global.DB.Create(&models.BannerModel{
 		Cover: cr.Cover,
 		Href:  cr.Href,
 		Show:  true,
@@ -55,12 +50,7 @@ func (BannerApi) BannerListView(c *gin.Context) {
 }
 
 func (BannerApi) BannerRemoveView(c *gin.Context) {
-	var cr models.RemoveRequest
-	err := c.ShouldBindJSON(&cr)
-	if err != nil {
-		res.FailWithError(err, c)
-		return
-	}
+	cr := middleware.BindJson[models.RemoveRequest](c)
 	var list []models.BannerModel
 	global.DB.Find(&list, "id in ?", cr.IDlist)
 	if len(list) > 0 {
