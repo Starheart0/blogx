@@ -5,6 +5,7 @@ import (
 
 	"github.com/go-redis/redis"
 	"github.com/mojocn/base64Captcha"
+	"github.com/olivere/elastic/v7"
 	"gorm.io/gorm"
 )
 
@@ -15,4 +16,5 @@ var (
 	DB           *gorm.DB
 	Redis        *redis.Client
 	CaptchaStore = base64Captcha.DefaultMemStore
+	ESClient     *elastic.Client
 )

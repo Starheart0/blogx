@@ -5,8 +5,7 @@ import "fmt"
 type Config struct {
 	System System `yaml:"system"`
 	Log    Log    `yaml:"log"`
-	DB     DB     `yaml:"db"`  //read
-	DB1    DB     `yaml:"db1"` //write
+	DB     []DB   `yaml:"db"` //0 -> write  1 -> read
 	Jwt    Jwt    `yaml:"jwt"`
 	Redis  Redis  `yaml:"redis"`
 	Site   Site   `yaml:"site"`
@@ -15,6 +14,8 @@ type Config struct {
 	QiNiu  QiNiu  `yaml:"qiNiu"`
 	Ai     Ai     `yaml:"ai"`
 	Upload Upload `yaml:"upload"`
+	ES     ES     `yaml:"es"`
+	River  River  `yaml:"river"`
 }
 
 func (s System) Addr() string {

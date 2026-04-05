@@ -11,8 +11,10 @@ import (
 )
 
 func InitDB() *gorm.DB {
-	dc := global.Config.DB
-	dc1 := global.Config.DB1
+	if len(global.Config.DB) == 0 {
+		logrus.Fatalf("without config db")
+	}
+	dc := global.Config.DB[0] //read
 
 	db, err := gorm.Open(mysql.Open(dc.DSN()), &gorm.Config{
 		DisableForeignKeyConstraintWhenMigrating: true,
@@ -26,12 +28,16 @@ func InitDB() *gorm.DB {
 	sqlDB.SetConnMaxLifetime(time.Hour)
 	logrus.Infof("database connection Ac!")
 
-	if !dc1.Empty() {
+	if len(global.Config.DB) > 1 {
 		// if not empty, register read-write separation conf
+		var readList []gorm.Dialector
+		for _, d := range global.Config.DB[1:] {
+			readList = append(readList, mysql.Open(d.DSN()))
+		}
 		err = db.Use(dbresolver.Register(dbresolver.Config{
 			// use `db2` as sources, `db3`, `db4` as replicas
-			Sources:  []gorm.Dialector{mysql.Open(dc1.DSN())}, // write
-			Replicas: []gorm.Dialector{mysql.Open(dc.DSN())},  //read
+			Sources:  []gorm.Dialector{mysql.Open(dc.DSN())}, // write
+			Replicas: readList,                               //read
 			// sources/replicas load balancing policy
 			Policy: dbresolver.RandomPolicy{},
 		}))
