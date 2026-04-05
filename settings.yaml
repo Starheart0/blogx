@@ -114,4 +114,4 @@ upload:
         - png
         - webp
         - gif
-    uploadDir: uploads/images
+    uploadDir: images
