@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"blogx_server/commom/res"
+	"blogx_server/common/res"
 	"blogx_server/models/enum"
 	"blogx_server/service/redis_service/redis_jwt"
 	"blogx_server/utils/jwts"

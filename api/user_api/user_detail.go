@@ -1,7 +1,7 @@
 package user_api
 
 import (
-	"blogx_server/commom/res"
+	"blogx_server/common/res"
 	"blogx_server/global"
 	"blogx_server/models"
 	"blogx_server/models/enum"
@@ -24,7 +24,7 @@ type UserDetailResponse struct {
 }
 
 func (UserApi) UserDetailView(c *gin.Context) {
-	claims := jwts.GetCliams(c)
+	claims := jwts.GetClaims(c)
 	var user models.UserModel
 	err := global.DB.Preload("UserConfModel").Take(&user, claims.UserID).Error
 	if err != nil {

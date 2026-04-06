@@ -1,8 +1,8 @@
 package user_api
 
 import (
-	"blogx_server/commom"
-	"blogx_server/commom/res"
+	"blogx_server/common"
+	"blogx_server/common/res"
 	"blogx_server/global"
 	"blogx_server/middleware"
 	"blogx_server/models"
@@ -13,7 +13,7 @@ import (
 )
 
 type UserLoginListRequest struct {
-	commom.PageInfo
+	common.PageInfo
 	UserID    uint   `form:"userID"`
 	Ip        string `form:"ip"`
 	Addr      string `form:"addr"`
@@ -30,7 +30,7 @@ type UserLoginListResponse struct {
 
 func (UserApi) UserLoginListView(c *gin.Context) {
 	cr := middleware.BindQuery[UserLoginListRequest](c)
-	claims := jwts.GetCliams(c)
+	claims := jwts.GetClaims(c)
 	if cr.Type == 1 {
 		cr.UserID = claims.UserID
 	}
@@ -57,11 +57,11 @@ func (UserApi) UserLoginListView(c *gin.Context) {
 		preloads = []string{"UserModel"}
 	}
 
-	_list, count, _ := commom.ListQuery(models.UserLoginModel{
+	_list, count, _ := common.ListQuery(models.UserLoginModel{
 		UserID: cr.UserID,
 		IP:     cr.Ip,
 		Addr:   cr.Addr,
-	}, commom.Option{
+	}, common.Options{
 		PageInfo: cr.PageInfo,
 		Where:    query,
 		Preloads: preloads,

@@ -1,8 +1,8 @@
 package image_api
 
 import (
-	"blogx_server/commom"
-	"blogx_server/commom/res"
+	"blogx_server/common"
+	"blogx_server/common/res"
 	"blogx_server/global"
 	"blogx_server/middleware"
 	"blogx_server/models"
@@ -21,8 +21,8 @@ type ImageListResponse struct {
 }
 
 func (ImageApi) ImageListView(c *gin.Context) {
-	cr := middleware.BindJson[commom.PageInfo](c)
-	_list, count, _ := commom.ListQuery(models.ImageModel{}, commom.Option{
+	cr := middleware.BindJson[common.PageInfo](c)
+	_list, count, _ := common.ListQuery(models.ImageModel{}, common.Options{
 		PageInfo: cr,
 		Likes:    []string{"filename"},
 	})
@@ -43,7 +43,7 @@ func (ImageApi) ImageRemoveView(c *gin.Context) {
 	log.ShowResponse()
 
 	var List []models.ImageModel
-	global.DB.Find(&List, "id in ?", cr.IDlist)
+	global.DB.Find(&List, "id in ?", cr.IDList)
 
 	var successCount, errCount int64
 	if len(List) > 0 {

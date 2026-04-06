@@ -1,7 +1,7 @@
 package image_api
 
 import (
-	"blogx_server/commom/res"
+	"blogx_server/common/res"
 	"blogx_server/global"
 	"blogx_server/models"
 	"blogx_server/utils"

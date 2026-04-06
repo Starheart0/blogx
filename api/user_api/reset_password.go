@@ -1,7 +1,7 @@
 package user_api
 
 import (
-	"blogx_server/commom/res"
+	"blogx_server/common/res"
 	"blogx_server/global"
 	"blogx_server/middleware"
 	"blogx_server/models"

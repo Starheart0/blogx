@@ -1,7 +1,7 @@
 package article_api
 
 import (
-	"blogx_server/commom/res"
+	"blogx_server/common/res"
 	"blogx_server/global"
 	"blogx_server/middleware"
 	"blogx_server/models"
@@ -29,10 +29,16 @@ type ArticleCreateRequest struct {
 func (ArticleApi) ArticleCreateView(c *gin.Context) {
 	cr := middleware.BindJson[ArticleCreateRequest](c)
 
-	user, err := jwts.GetCliams(c).GetUser()
+	user, err := jwts.GetClaims(c).GetUser()
 	if err != nil {
 		res.FailWithMsg("用户不存在", c)
 		return
+	}
+	if global.Config.Site.SiteInfo.Mode == 2 {
+		if user.Role != enum.AdminRole {
+			res.FailWithMsg("博客模式下，普通用户不能发文章", c)
+			return
+		}
 	}
 
 	// 判断分类id是不是自己创建的
@@ -85,8 +91,8 @@ func (ArticleApi) ArticleCreateView(c *gin.Context) {
 		TagList:     cr.TagList,
 		Cover:       cr.Cover,
 		OpenComment: cr.OpenComment,
-		//CategoryID:  cr.CategoryID,
-		Status: cr.Status,
+		CategoryID:  cr.CategoryID,
+		Status:      cr.Status,
 	}
 	if cr.Status == enum.ArticleStatusExamine && global.Config.Site.Article.NoExamine {
 		article.Status = enum.ArticleStatusPublished

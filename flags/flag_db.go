@@ -18,7 +18,7 @@ func FlagDB() {
 		&models.UserArticleCollectModel{},
 		&models.UserTopArticleModel{},
 		&models.ImageModel{},
-		&models.UserArticleLookHistroyModel{},
+		&models.UserArticleLookHistoryModel{},
 		&models.CommentModel{},
 		&models.BannerModel{},
 		&models.LogModel{},

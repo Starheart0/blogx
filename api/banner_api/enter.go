@@ -1,8 +1,8 @@
 package banner_api
 
 import (
-	"blogx_server/commom"
-	"blogx_server/commom/res"
+	"blogx_server/common"
+	"blogx_server/common/res"
 	"blogx_server/global"
 	"blogx_server/middleware"
 	"blogx_server/models"
@@ -35,14 +35,14 @@ func (BannerApi) BannerCreateVier(c *gin.Context) {
 }
 
 type BannerListRequest struct {
-	commom.PageInfo
+	common.PageInfo
 	Show bool `form:"show"`
 }
 
 func (BannerApi) BannerListView(c *gin.Context) {
 	cr := middleware.BindQuery[BannerListRequest](c)
 
-	list, count, _ := commom.ListQuery(models.BannerModel{}, commom.Option{
+	list, count, _ := common.ListQuery(models.BannerModel{}, common.Options{
 		PageInfo: cr.PageInfo,
 	})
 
@@ -52,11 +52,11 @@ func (BannerApi) BannerListView(c *gin.Context) {
 func (BannerApi) BannerRemoveView(c *gin.Context) {
 	cr := middleware.BindJson[models.RemoveRequest](c)
 	var list []models.BannerModel
-	global.DB.Find(&list, "id in ?", cr.IDlist)
+	global.DB.Find(&list, "id in ?", cr.IDList)
 	if len(list) > 0 {
 		global.DB.Delete(&list)
 	}
-	res.OkWithMsg(fmt.Sprintf("need delete %d banner, successfully delete %d banner", len(cr.IDlist), len(list)), c)
+	res.OkWithMsg(fmt.Sprintf("need delete %d banner, successfully delete %d banner", len(cr.IDList), len(list)), c)
 }
 func (BannerApi) BannerUpdateView(c *gin.Context) {
 	id := middleware.BindUri[models.IDRequest](c)

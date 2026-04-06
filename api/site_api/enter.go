@@ -1,7 +1,7 @@
 package site_api
 
 import (
-	"blogx_server/commom/res"
+	"blogx_server/common/res"
 	"blogx_server/conf"
 	"blogx_server/core"
 	"blogx_server/global"

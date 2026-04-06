@@ -1,7 +1,7 @@
 package user_api
 
 import (
-	"blogx_server/commom/res"
+	"blogx_server/common/res"
 	"blogx_server/global"
 	"blogx_server/utils/jwts"
 
@@ -19,7 +19,7 @@ func (UserApi) BindEmailView(c *gin.Context) {
 		res.FailWithMsg("email verify error", c)
 		return
 	}
-	user, err := jwts.GetCliams(c).GetUser()
+	user, err := jwts.GetClaims(c).GetUser()
 	if err != nil {
 		res.FailWithMsg("user not exist", c)
 		return

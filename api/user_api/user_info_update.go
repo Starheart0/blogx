@@ -1,7 +1,7 @@
 package user_api
 
 import (
-	"blogx_server/commom/res"
+	"blogx_server/common/res"
 	"blogx_server/global"
 	"blogx_server/middleware"
 	"blogx_server/models"
@@ -30,7 +30,7 @@ func (UserApi) UserInfoUpdateView(c *gin.Context) {
 	userMap := mps.StructToMap(cr, "s-u")
 	userConfMap := mps.StructToMap(cr, "s-u-c")
 
-	claims := jwts.GetCliams(c)
+	claims := jwts.GetClaims(c)
 
 	if len(userMap) > 0 {
 		var userModel models.UserModel

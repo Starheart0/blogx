@@ -72,7 +72,7 @@ func ParseTokenByGin(c *gin.Context) (*MyClaims, error) {
 	return ParseToken(token)
 }
 
-func GetCliams(c *gin.Context) (claims *MyClaims) {
+func GetClaims(c *gin.Context) (claims *MyClaims) {
 	_claims, ok := c.Get("claims")
 	if !ok {
 		return

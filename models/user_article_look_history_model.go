@@ -1,6 +1,6 @@
 package models
 
-type UserArticleLookHistroyModel struct {
+type UserArticleLookHistoryModel struct {
 	Model
 	UserID       uint         `json:"userID"`
 	UserModel    UserModel    `gorm:"foreignKey:UserID" json:"-"`

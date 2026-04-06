@@ -1,4 +1,4 @@
-package commom
+package common
 
 import (
 	"blogx_server/global"
@@ -33,7 +33,7 @@ func (p PageInfo) GetOffset() int {
 	return (p.GetPage() - 1) * p.GetLimit()
 }
 
-type Option struct {
+type Options struct {
 	PageInfo     PageInfo
 	Likes        []string
 	Preloads     []string
@@ -43,7 +43,7 @@ type Option struct {
 	DefaultOrder string
 }
 
-func ListQuery[T any](model T, option Option) (list []T, count int, err error) {
+func ListQuery[T any](model T, option Options) (list []T, count int, err error) {
 	query := global.DB.Where(model)
 
 	if option.Debug {

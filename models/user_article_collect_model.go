@@ -8,6 +8,6 @@ type UserArticleCollectModel struct {
 	ArticleID    uint         `gorm:"uniqueIndex:idx_name" json:"articleID"`
 	ArticleModel ArticleModel `gorm:"foreignKey:ArticleID" json:"-"`
 	CollectID    uint         `gorm:"uniqueIndex:idx_name" json:"collectID"`
-	CollectModel CollectModel `gorm:"foreignKey:collectID" json:"collectModel"`
+	CollectModel CollectModel `gorm:"foreignKey:CollectID" json:"collectModel"`
 	CreatedAt    time.Time    `json:"createdAt"`
 }

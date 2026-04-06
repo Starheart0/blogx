@@ -1,8 +1,8 @@
 package log_api
 
 import (
-	"blogx_server/commom"
-	"blogx_server/commom/res"
+	"blogx_server/common"
+	"blogx_server/common/res"
 	"blogx_server/global"
 	"blogx_server/middleware"
 	"blogx_server/models"
@@ -17,7 +17,7 @@ type LogApi struct {
 }
 
 type LogListRequest struct {
-	commom.PageInfo
+	common.PageInfo
 	LogType     enum.LogType      `from:"logType"`
 	Level       enum.LogLevelType `from:"level"`
 	UserID      uint              `from:"userID"`
@@ -34,14 +34,14 @@ type LogListResponse struct {
 func (LogApi) LogListView(c *gin.Context) {
 	cr := middleware.BindQuery[LogListRequest](c)
 
-	list, count, err := commom.ListQuery(models.LogModel{
+	list, count, err := common.ListQuery(models.LogModel{
 		LogType:     cr.LogType,
 		Level:       cr.Level,
 		UserID:      cr.UserID,
 		IP:          cr.IP,
 		LoginStatus: cr.LoginStatus,
 		ServiceName: cr.ServiceName,
-	}, commom.Option{
+	}, common.Options{
 		PageInfo:     cr.PageInfo,
 		Likes:        []string{"Title"},
 		Preloads:     []string{"UserModel"},
@@ -84,7 +84,7 @@ func (LogApi) LogRemoveView(c *gin.Context) {
 	log.ShowResponse()
 
 	var logList []models.LogModel
-	global.DB.Find(&logList, "id in ?", cr.IDlist)
+	global.DB.Find(&logList, "id in ?", cr.IDList)
 
 	if len(logList) > 0 {
 		global.DB.Delete(&logList)

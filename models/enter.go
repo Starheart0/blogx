@@ -15,5 +15,10 @@ type IDRequest struct {
 }
 
 type RemoveRequest struct {
-	IDlist []uint `json:"IDlist"`
+	IDList []uint `json:"idList"`
+}
+
+type OptionsResponse[T any] struct {
+	Label string `yaml:"label"`
+	Value T      `json:"value"`
 }

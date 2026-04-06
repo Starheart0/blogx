@@ -1,7 +1,7 @@
 package user_api
 
 import (
-	"blogx_server/commom/res"
+	"blogx_server/common/res"
 	"blogx_server/global"
 	"blogx_server/middleware"
 	"blogx_server/models/enum"
@@ -22,7 +22,7 @@ func (UserApi) UpdatePasswordView(c *gin.Context) {
 		res.FailWithMsg("site hasn't email function", c)
 		return
 	}
-	claims := jwts.GetCliams(c)
+	claims := jwts.GetClaims(c)
 	user, err := claims.GetUser()
 	if err != nil {
 		res.FailWithMsg("user not exist", c)

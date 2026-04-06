@@ -5,6 +5,7 @@ import (
 	"blogx_server/flags"
 	"blogx_server/global"
 	"blogx_server/router"
+	"blogx_server/service/cron_service"
 )
 
 func main() {
@@ -16,5 +17,6 @@ func main() {
 	global.ESClient = core.EsConnect()
 	flags.Run()
 	core.InitMysqlES()
+	cron_service.Cron()
 	router.Run()
 }
