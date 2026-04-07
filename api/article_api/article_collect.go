@@ -6,6 +6,7 @@ import (
 	"blogx_server/middleware"
 	"blogx_server/models"
 	"blogx_server/models/enum"
+	"blogx_server/service/message_service"
 	"blogx_server/service/redis_service/redis_article"
 	"blogx_server/utils/jwts"
 	"fmt"
@@ -60,17 +61,18 @@ func (ArticleApi) ArticleCollectView(c *gin.Context) {
 
 	if err != nil {
 		// 收藏
-		err = global.DB.Create(&models.UserArticleCollectModel{
+		model := models.UserArticleCollectModel{
 			UserID:    claims.UserID,
 			ArticleID: cr.ArticleID,
 			CollectID: cr.CollectID,
-		}).Error
+		}
+		err = global.DB.Create(&model).Error
 		if err != nil {
 			res.FailWithMsg("收藏失败", c)
 			return
 		}
 		res.OkWithMsg("收藏成功", c)
-
+		message_service.InsertCollectArticleMessage(model)
 		// 对收藏夹进行加1
 		redis_article.SetCacheCollect(cr.ArticleID, true)
 		global.DB.Model(&collectModel).Update("article_count", gorm.Expr("article_count + 1"))
@@ -88,7 +90,6 @@ func (ArticleApi) ArticleCollectView(c *gin.Context) {
 		return
 	}
 	res.OkWithMsg("取消收藏成功", c)
-	//TODO:收藏数同步缓存
 	redis_article.SetCacheCollect(cr.ArticleID, false)
 	global.DB.Model(&collectModel).Update("article_count", gorm.Expr("article_count - 1"))
 	return

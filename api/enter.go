@@ -5,21 +5,25 @@ import (
 	"blogx_server/api/banner_api"
 	"blogx_server/api/captcha"
 	"blogx_server/api/comment_api"
+	"blogx_server/api/global_notification_api"
 	"blogx_server/api/image_api"
 	"blogx_server/api/log_api"
 	"blogx_server/api/site_api"
+	"blogx_server/api/site_msg_api"
 	"blogx_server/api/user_api"
 )
 
 type Api struct {
-	SiteApi    site_api.SiteApi
-	LogApi     log_api.LogApi
-	ImageApi   image_api.ImageApi
-	BannerApi  banner_api.BannerApi
-	CaptchaApi captcha.CaptchaApi
-	UserApi    user_api.UserApi
-	ArticleApi article_api.ArticleApi
-	CommentApi comment_api.CommentApi
+	SiteApi               site_api.SiteApi
+	LogApi                log_api.LogApi
+	ImageApi              image_api.ImageApi
+	BannerApi             banner_api.BannerApi
+	CaptchaApi            captcha.CaptchaApi
+	UserApi               user_api.UserApi
+	ArticleApi            article_api.ArticleApi
+	CommentApi            comment_api.CommentApi
+	SiteMsgApi            site_msg_api.SiteMsgApi
+	GlobalNotificationApi global_notification_api.GlobalNotificationApi
 }
 
 var App = Api{}
