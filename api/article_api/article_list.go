@@ -21,6 +21,7 @@ type ArticleListRequest struct {
 	UserID     uint               `form:"userID"`
 	CategoryID *uint              `form:"categoryID"`
 	Status     enum.ArticleStatus `form:"status"`
+	CollectID  uint               `form:"collectID"`
 }
 
 type ArticleListResponse struct {
@@ -60,6 +61,23 @@ func (ArticleApi) ArticleListView(c *gin.Context) {
 		}
 		cr.Status = 0
 		cr.Order = ""
+		if cr.CollectID != 0 {
+			// 如果传了收藏夹ID，那要看看这个人
+			if cr.UserID == 0 {
+				res.FailWithMsg("请传入用户ID", c)
+				return
+			}
+			var userConf models.UserConfModel
+			err := global.DB.Take(&userConf, "user_id = ?", cr.UserID).Error
+			if err != nil {
+				res.FailWithMsg("用户不存在", c)
+				return
+			}
+			if !userConf.OpenCollect {
+				res.FailWithMsg("用户未开启收藏", c)
+				return
+			}
+		}
 	case 2:
 		// 查自己的
 		claims, err := jwts.ParseTokenByGin(c)
@@ -117,12 +135,14 @@ func (ArticleApi) ArticleListView(c *gin.Context) {
 	collectMap := redis_article.GetAllCacheCollect()
 	diggMap := redis_article.GetAllCacheDigg()
 	lookMap := redis_article.GetAllCacheLook()
+	commentMap := redis_article.GetAllCacheComment()
 
 	for _, model := range _list {
 		model.Content = ""
 		model.CollectCount = model.CollectCount + collectMap[model.ID]
 		model.DiggCount = model.DiggCount + diggMap[model.ID]
 		model.LookCount = model.LookCount + lookMap[model.ID]
+		model.CommentCount = model.CommentCount + commentMap[model.ID]
 		data := ArticleListResponse{
 			ArticleModel: model,
 			UserTop:      userTopMap[model.ID],
