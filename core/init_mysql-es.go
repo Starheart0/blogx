@@ -12,6 +12,10 @@ func InitMysqlES() {
 		logrus.Infof("without conf es, close mysql sync operation")
 		return
 	}
+	if !global.Config.ES.Enable {
+		logrus.Infof("未配置es，关闭mysql数据同步")
+		return
+	}
 	r, err := river.NewRiver()
 	if err != nil {
 		logrus.Fatal(err)

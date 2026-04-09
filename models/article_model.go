@@ -4,6 +4,7 @@ import (
 	"blogx_server/global"
 	"blogx_server/models/ctype"
 	"blogx_server/models/enum"
+	"blogx_server/service/text_service"
 	_ "embed"
 
 	"github.com/sirupsen/logrus"
@@ -58,4 +59,44 @@ func (a *ArticleModel) BeforeDelete(tx *gorm.DB) (err error) {
 	logrus.Infof("删除关联置顶 %d 条", len(topList))
 	logrus.Infof("删除关联浏览 %d 条", len(lookList))
 	return
+}
+
+func (a *ArticleModel) AfterCreate(tx *gorm.DB) (err error) {
+	// 只有发布中的文章会放到全文搜索里面
+	if a.Status != enum.ArticleStatusPublished {
+		return nil
+	}
+	textList := text_service.MdContentTransformation(a.ID, a.Title, a.Content)
+	var list []TextModel
+	if len(textList) == 0 {
+		return nil
+	}
+	for _, model := range textList {
+		list = append(list, TextModel{
+			ArticleID: model.ArticleID,
+			Head:      model.Head,
+			Body:      model.Body,
+		})
+	}
+	err = tx.Create(&textList).Error
+	if err != nil {
+		logrus.Error(err)
+	}
+	return nil
+}
+
+func (a *ArticleModel) AfterDelete(tx *gorm.DB) (err error) {
+	var textList []TextModel
+	tx.Find(&textList, "article_id = ?", a.ID)
+	if len(textList) > 0 {
+		logrus.Infof("删除全文记录 %d", len(textList))
+		tx.Delete(&textList)
+	}
+	return nil
+}
+func (a *ArticleModel) AfterUpdate(tx *gorm.DB) (err error) {
+	// 正文发生了变化，才去做转换
+	a.AfterDelete(tx)
+	a.AfterCreate(tx)
+	return nil
 }
