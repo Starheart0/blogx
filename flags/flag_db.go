@@ -29,6 +29,8 @@ func FlagDB() {
 		&models.UserMessageConfModel{},
 		&models.UserGlobalNotificationModel{},
 		&models.UserFocusModel{},
+		&models.UserChatActionModel{},
+		&models.ChatModel{},
 	)
 	if err != nil {
 		logrus.Errorf("database migrate error : %s", err)

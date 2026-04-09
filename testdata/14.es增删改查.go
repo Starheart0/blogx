@@ -49,7 +49,7 @@ func list() {
 func DocDelete() {
 
 	deleteResponse, err := global.ESClient.Delete().
-		Index(models.ArticleModel{}.Index()).Id("2eA7WZ0BZqqs5BRLr7Dq").Refresh("true").Do(context.Background())
+		Index(models.ArticleModel{}.Index()).Id("eH_ncJ0BWExbc-wtVspH").Refresh("true").Do(context.Background())
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -59,7 +59,7 @@ func DocDelete() {
 
 func update() {
 	updateResponse, err := global.ESClient.Update().Index(models.ArticleModel{}.Index()).Refresh("true").
-		Id("2uA9WZ0BZqqs5BRLn7DH").
+		Id("eX_pcJ0BWExbc-wtU8qT").
 		Doc(map[string]any{
 			"content": "Starheart123",
 		}).Do(context.Background())
@@ -72,7 +72,7 @@ func main() {
 	core.InitLogrus()
 	global.ESClient = core.EsConnect()
 	//create()
-	//list()
+	list()
 	//DocDelete()
-	update()
+	//update()
 }
