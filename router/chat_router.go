@@ -16,4 +16,5 @@ func ChatRouter(r *gin.RouterGroup) {
 	r.DELETE("char", middleware.AuthMiddleware, middleware.BindJsonMiddleware[models.RemoveRequest], app.UserChatDeleteView)
 	r.DELETE("char/user/:id", middleware.AuthMiddleware, middleware.BindUriMiddleware[models.IDRequest], app.UserChatDeleteByUserView)
 	r.POST("char/read/:id", middleware.AuthMiddleware, middleware.BindUriMiddleware[models.IDRequest], app.ChatReadView)
+	r.GET("chat/ws", app.ChatView)
 }
